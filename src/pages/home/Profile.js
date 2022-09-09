@@ -13,8 +13,8 @@ export default function Profile(props) {
         >
             <Avatar
                 sx={{ width: 128, height: 128 }}
-                alt="Remy Sharp"
-                src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80"
+                alt={user.email}
+                src={user.imageLink}
             />
         </Grid>
         <Grid
@@ -43,14 +43,14 @@ export default function Profile(props) {
                 container
                 justifyContent="center">
                 <Typography>
-                    {user.followersCount} subscribed
+                    {user.followersCount} followers
                 </Typography>
             </Grid>
             <Grid item xs={4}
                 container
                 justifyContent="center">
                 <Typography>
-                    {user.followingsCount} subscribed
+                    {user.followingsCount} followings
                 </Typography>
             </Grid>
         </Grid>

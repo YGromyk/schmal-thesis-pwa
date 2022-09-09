@@ -10,13 +10,7 @@ import { Card, Grid, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function PostItem(props) {
-    console.log(props);
-    const post = {
-        authorPhoto: "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
-        authorName: props.author,
-        date: new Date(props.post.createdAt),
-        content: props.post.content
-    };
+    const post = props.post;
     return (
         <Card sx={{ p: 3, m: 1 }}>
             <Grid item container>
@@ -25,8 +19,8 @@ export default function PostItem(props) {
                     justifyContent="start"
                 >                    <Avatar
                         sx={{ width: 64, height: 64 }}
-                        alt="Remy Sharp"
-                        src={post.authorPhoto}
+                        alt={props.user.name}
+                        src={props.user.imageLink}
                     />
                 </Grid>
                 <Grid item xs={9} sm={10}>
@@ -35,7 +29,7 @@ export default function PostItem(props) {
                     </Typography>
                     <Typography>{post.content}</Typography>
 
-                    <Typography>Written: {post.date.toDateString()}</Typography>
+                    <Typography>Written: {post.createdAt}</Typography>
                     {/* <IconButton aria-label="delete"  color="primary">
                         <DeleteIcon />
                     </IconButton> */}

@@ -10,21 +10,6 @@ import PostItem from './PostItem';
 import CreatePost from './CreatePost';
 import { getMyPosts } from '../../api/api-posts';
 
-export default function Post() {
-    const [posts, setPosts] = React.useState([])
-    React.useEffect(() => {
-        getMyPosts().then((data) => {
-            setPosts(data.data);
-        })
-    }, []);
-    return (
-        <>
-            <CreatePost />
-            <List>
-                {posts.map((post, i) => {
-                    return <PostItem post={post} key={i} />;
-                })}
-            </List>
-        </>
-    );
+export default function Post(props) {
+
 }

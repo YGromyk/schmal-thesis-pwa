@@ -14,31 +14,27 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Copyright from '../../common/Copyright';
 import { useHistory } from "react-router-dom";
-import { me } from '../../api/api-user';
-import { Card, List } from '@mui/material';
+import { all, me } from '../../api/api-user';
+import { Card } from '@mui/material';
 import Profile from './Profile';
+import { ContentCutOutlined } from '@mui/icons-material';
 import NavMenu from './NavMenu';
 import Post from './Post';
-import PostItem from './PostItem';
-import CreatePost from './CreatePost';
-import { getMyPosts } from '../../api/api-posts';
+import UserItem from './UserItem';
 
 const theme = createTheme();
 
-export default function Home() {
-    const [user, setData] = React.useState([])
-    const [posts, setPosts] = React.useState([])
-
+export default function Search() {
+    const [users, setData] = React.useState([])
     React.useEffect(() => {
-        me().then((data) => {
+        all().then((data) => {
             setData(data.data);
-            return data.data;
-        }).then(user => {
-            getMyPosts(user.id).then((data) => {
-                setPosts(data.data);
-            })
         })
     }, []);
+
+    const follow = (id) => {
+        
+    }
 
     return (
         <ThemeProvider theme={theme}>
@@ -46,17 +42,10 @@ export default function Home() {
                 <NavMenu />
                 <CssBaseline />
                 <Grid item xs={12} md={6}>
-                    <Card >
-                        <Profile user={user} />
-                    </Card>
-                    <CreatePost user={user}/>
-
-                    <List>
-                {posts.map((post, i) => {
-                    return <PostItem user={user} post={post} key={i} />;
-                })}
-            </List>
-                    <Post user={user} />
+                    
+                {users.map(it => <UserItem user={it} onPressFolow={() => follow(it.id)}/>)}
+                    
+                    
                 </Grid>
                 <Grid item xs={12}>
                     <Copyright sx={{ mt: 5 }} />

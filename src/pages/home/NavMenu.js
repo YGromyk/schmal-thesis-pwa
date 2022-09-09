@@ -12,11 +12,18 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import { useNavigate } from 'react-router-dom';
 
-const pages = ['Me', 'Friends', 'Search'];
+const pages = [
+    {title: 'Me', path: '/me'}, 
+    {title: 'Friends', path: '/friends'}, 
+    {title: 'Search', path: '/search'}, 
+];
 const settings = ['Profile settings', 'Logout'];
 
 const NavMenu = () => {
+    const navigate = useNavigate();
+
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -27,8 +34,14 @@ const NavMenu = () => {
         setAnchorElUser(event.currentTarget);
     };
 
+    const openPathAndCloseMenu = (path) => {
+        handleCloseNavMenu();
+        navigate(path);
+    };
+
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
+
     };
 
     const handleCloseUserMenu = () => {
@@ -48,6 +61,7 @@ const NavMenu = () => {
                         sx={{
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },
+                            fontFamily: 'monospace',
                             fontFamily: 'monospace',
                             fontWeight: 700,
                             letterSpacing: '.3rem',
@@ -88,8 +102,8 @@ const NavMenu = () => {
                             }}
                         >
                             {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{page}</Typography>
+                                <MenuItem key={page.path} onClick={() => openPathAndCloseMenu(page.path)}>
+                                    <Typography textAlign="center">{page.title}</Typography>
                                 </MenuItem>
                             ))}
                         </Menu>
@@ -116,11 +130,11 @@ const NavMenu = () => {
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page) => (
                             <Button
-                                key={page}
-                                onClick={handleCloseNavMenu}
+                                key={page.path}
+                                onClick={() => openPathAndCloseMenu(page.path)}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >
-                                {page}
+                                {page.title}
                             </Button>
                         ))}
                     </Box>

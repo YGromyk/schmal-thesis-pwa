@@ -49,7 +49,9 @@ axiosAuthenticated.interceptors.request.use((config) => {
 });
 
 let refreshingActive = null;
-axiosAuthenticated.interceptors.response.use((response) => {
+axiosAuthenticated.interceptors.response.use(async (response) => {
+    const cache = await caches.open('storage');
+    // cache.put(response.request.responseURL, response.request.response);
     return response
 }, async (error) => {
     const config = error.config;

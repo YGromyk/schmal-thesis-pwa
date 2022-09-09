@@ -13,8 +13,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Copyright from '../../common/Copyright';
-import { useHistory } from "react-router-dom";
-import { me } from '../../api/api-user';
+import { useHistory, useParams } from "react-router-dom";
+import { getUserById, me } from '../../api/api-user';
 import { Card, List } from '@mui/material';
 import Profile from './Profile';
 import NavMenu from './NavMenu';
@@ -25,12 +25,14 @@ import { getMyPosts } from '../../api/api-posts';
 
 const theme = createTheme();
 
-export default function Home() {
+export default function UserProfile() {
+    const params = useParams();
+console.log(params);
     const [user, setData] = React.useState([])
     const [posts, setPosts] = React.useState([])
 
     React.useEffect(() => {
-        me().then((data) => {
+        getUserById(params.userId).then((data) => {
             setData(data.data);
             return data.data;
         }).then(user => {
@@ -49,8 +51,6 @@ export default function Home() {
                     <Card >
                         <Profile user={user} />
                     </Card>
-                    <CreatePost user={user}/>
-
                     <List>
                 {posts.map((post, i) => {
                     return <PostItem user={user} post={post} key={i} />;

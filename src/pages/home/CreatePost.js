@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import { Button, Card, Grid, TextField } from '@mui/material';
 import { createPost } from '../../api/api-posts';
 
-export default function CreatePost() {
+export default function CreatePost(props) {
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -35,8 +35,8 @@ export default function CreatePost() {
                 >
                     <Avatar
                         sx={{ width: 64, height: 64 }}
-                        alt="Remy Sharp"
-                        src={post.authorPhoto}
+                        alt={props.user.name}
+                        src={props.user.imageLink}
                     />
                 </Grid>
                 <Grid item xs={9} sm={10}>
