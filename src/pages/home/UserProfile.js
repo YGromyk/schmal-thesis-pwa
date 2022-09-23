@@ -22,25 +22,26 @@ import Post from './Post';
 import PostItem from './PostItem';
 import CreatePost from './CreatePost';
 import { getMyPosts } from '../../api/api-posts';
+import PageLoading from '../../common/PageLoading';
 
 const theme = createTheme();
 
 export default function UserProfile() {
     const params = useParams();
-console.log(params);
     const [user, setData] = React.useState([])
     const [posts, setPosts] = React.useState([])
+    const [loading, setLoading] = React.useState(true);
 
-    React.useEffect(() => {
-        getUserById(params.userId).then((data) => {
-            setData(data.data);
-            return data.data;
-        }).then(user => {
-            getMyPosts(user.id).then((data) => {
-                setPosts(data.data);
-            })
+
+    getUserById(params.userId).then((data) => {
+        setData(data.data);
+        return data.data;
+    }).then(user => {
+        getMyPosts(user.id).then((data) => {
+            setPosts(data.data);
+            setLoading(false);
         })
-    }, []);
+    });
 
     return (
         <ThemeProvider theme={theme}>
@@ -48,15 +49,15 @@ console.log(params);
                 <NavMenu />
                 <CssBaseline />
                 <Grid item xs={12} md={6}>
+                    <PageLoading open={loading} />
                     <Card >
                         <Profile user={user} />
                     </Card>
                     <List>
-                {posts.map((post, i) => {
-                    return <PostItem user={user} post={post} key={i} />;
-                })}
-            </List>
-                    <Post user={user} />
+                        {posts.map((post, i) => {
+                            return <PostItem user={user} post={post} key={i} />;
+                        })}
+                    </List>
                 </Grid>
                 <Grid item xs={12}>
                     <Copyright sx={{ mt: 5 }} />

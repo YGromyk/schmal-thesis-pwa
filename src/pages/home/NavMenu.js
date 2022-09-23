@@ -13,16 +13,22 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useNavigate } from 'react-router-dom';
+import { useMeState } from '../../storage/store';
 
 const pages = [
     {title: 'Me', path: '/me'}, 
     {title: 'Friends', path: '/friends'}, 
     {title: 'Search', path: '/search'}, 
 ];
-const settings = ['Profile settings', 'Logout'];
+const settings = [
+    {title: 'Profile Settings', path: '/settings'}, 
+    {title: 'Logout', path: '/'}, 
+    ];
 
 const NavMenu = () => {
     const navigate = useNavigate();
+    const meState = useMeState((state) => state.me);
+
 
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -48,6 +54,20 @@ const NavMenu = () => {
         setAnchorElUser(null);
     };
 
+    const onSettingsPressed = (setting) => {
+        switch (setting.title) {
+            case settings[0].title:
+                navigate(setting.path);
+                break;
+            case settings[1].title:
+
+                break;
+            default:
+                break;
+        }
+        handleCloseNavMenu();
+    }
+
     return (
         <AppBar position="static">
             <Container maxWidth="xl">
@@ -61,7 +81,6 @@ const NavMenu = () => {
                         sx={{
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },
-                            fontFamily: 'monospace',
                             fontFamily: 'monospace',
                             fontWeight: 700,
                             letterSpacing: '.3rem',
@@ -142,7 +161,7 @@ const NavMenu = () => {
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80"/>
+                                <Avatar alt={meState.name} src={meState.imageLink}/>
                             </IconButton>
                         </Tooltip>
                         <Menu
@@ -162,8 +181,8 @@ const NavMenu = () => {
                             onClose={handleCloseUserMenu}
                         >
                             {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
+                                <MenuItem key={setting.title} onClick={() => onSettingsPressed(setting)}>
+                                    <Typography textAlign="center">{setting.title}</Typography>
                                 </MenuItem>
                             ))}
                         </Menu>

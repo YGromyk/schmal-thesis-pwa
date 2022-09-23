@@ -7,15 +7,19 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { Button, Card, Grid, TextField } from '@mui/material';
-import { createPost } from '../../api/api-posts';
+import { createPost, writeComment } from '../../api/api-posts';
+import { useMeState } from '../../storage/store';
 
-export default function CreatePost(props) {
+export default function CreateComment(props) {
+    const meState = useMeState((state) => state.me);
+
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        createPost({
-            content: data.get('post')
-        }).then((post) => {
+        writeComment(
+            props.postId,
+            data.get('comment')
+        ).then((post) => {
             props.onPostCreated(post.data);
             event.target.reset()
         });
@@ -35,16 +39,16 @@ export default function CreatePost(props) {
                 >
                     <Avatar
                         sx={{ width: 64, height: 64 }}
-                        alt={props.user.name}
-                        src={props.user.imageLink}
+                        alt={meState.name}
+                        src={meState.imageLink}
                     />
                 </Grid>
                 <Grid item xs={9} sm={10}>
                     <TextField
-                        name="post"
+                        name="comment"
                         sx={{ width: '100%' }}
                         id="outlined-multiline-static"
-                        label="Let us know what you think of"
+                        label="What do you think of that post?"
                         multiline
                         rows={4}
                         variant="outlined"

@@ -25,7 +25,7 @@ export default function Profile(props) {
         <Grid
             container
             justifyContent="center">
-            <Typography>Deep shit</Typography>
+            <Typography>{user.description}</Typography>
         </Grid>
         <Grid
         sx={{ pb: 2}}

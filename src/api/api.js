@@ -40,6 +40,11 @@ function saveTokenData(data) {
 }
 
 
+axiosAuthentication.interceptors.request.use((config) => {
+    config.headers['Access-Control-Allow-Origin'] = "*";
+    config.headers['Access-Control-Allow-Methods'] = "GET, PUT, POST, DELETE, OPTIONS";
+    return config;
+});
 
 axiosAuthenticated.interceptors.request.use((config) => {
     const access = localStorage.getItem('accessToken');
@@ -50,15 +55,14 @@ axiosAuthenticated.interceptors.request.use((config) => {
 
 let refreshingActive = null;
 axiosAuthenticated.interceptors.response.use(async (response) => {
-    const cache = await caches.open('storage');
-    // cache.put(response.request.responseURL, response.request.response);
     return response
 }, async (error) => {
     const config = error.config;
     if (error.response && error.response.status === 401 && !config._retry) {
         config._retry = true;
         try {
-            refreshingActive = refreshingActive ? refreshingActive : refreshToken();
+            refreshingActive = refreshingActive 
+            ? refreshingActive : refreshToken();
             let res = await refreshingActive;
             refreshingActive = null;
             if (res.data) {

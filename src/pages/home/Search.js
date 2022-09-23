@@ -19,7 +19,6 @@ import { Card } from '@mui/material';
 import Profile from './Profile';
 import { ContentCutOutlined } from '@mui/icons-material';
 import NavMenu from './NavMenu';
-import Post from './Post';
 import UserItem from './UserItem';
 
 const theme = createTheme();

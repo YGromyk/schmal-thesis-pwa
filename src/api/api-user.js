@@ -20,7 +20,24 @@ export function followings() {
 }
 
 export function follow(userId) {
-    return axiosAuthenticated.post('/api/followings/follow', null, {params : {
-        userId
-    }});
+    return axiosAuthenticated.post('/api/followings/follow', null, {
+        params: {
+            userId
+        }
+    });
+}
+
+export function uploadFoto(file) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return axiosAuthenticated.post('/api/user/avatar', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    });
+}
+
+export function updateProfile(profile) {
+    return axiosAuthenticated.put(`/api/user/update`, profile);
 }
